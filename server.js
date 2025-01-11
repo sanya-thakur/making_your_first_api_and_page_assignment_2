@@ -49,6 +49,57 @@ Example Responses:
 List of Status Codes to Handle:
 200, 201, 204, 400, 401, 403, 404, 405, 429, 500, 502, 503, 504
 */
+app.get("/status-info",(req,res)=>{
+  let code= req.query.code;
+  
+  let obj={
+    status: code,
+  };
+
+  if (code==200){
+    obj.message="OK: The request has succeeded. The meaning of this status depends on the HTTP method used."
+  }
+  else if(code==201){
+    obj.message="The request has been fulfilled, resulting in the creation of a new resource."
+  }
+  else if (code==204) {
+    obj.message ="The server successfully processed the request and is not returning any content."
+  }
+  else if (code==401){
+    obj.message="The client must authenticate itself to get the requested response."
+  }
+  else if (code==403){
+    obj.message="The client does not have access rights to the content."
+  }
+  else if (code==404){
+    obj.message="The server has not found anything matching the request URI. This is often caused by a missing page or resource"
+  }
+  else if (code==405){
+    obj.message="The request method is known by the server but is not supported by the target resource."
+  }
+  else if (code==429){
+    obj.message="The user has sent too many requests in a given amount of time (rate limiting)."
+  }
+  else if(code==502){
+    obj.message="The server, while acting as a gateway or proxy, received an invalid response from the upstream server."
+  }
+  else if (code==503){
+    obj.message="The server is not ready to handle the request. Common causes are server maintenance or overload."
+  }
+  else if (code==500){
+    obj.message="Internal Server Error: The server encountered an unexpected condition that prevented it from fulfilling the request."
+  }
+  else if (code==400){
+    obj.message="Bad Request: The server cannot process the request due to client-side errors (e.g., malformed syntax)."
+  }
+  else{
+    obj.message="The server, while acting as a gateway or proxy, did not receive a timely response from the upstream server."
+  }
+  return res.send(obj);
+})
+app.get("/", function(req, res){
+    return res.send('<h1>Hello World</h1>')
+});
 
 const PORT = 3000;
 app.listen(PORT, () => {
